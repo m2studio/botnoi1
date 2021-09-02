@@ -2,15 +2,18 @@ import os
 from flask import Flask, flash, request, render_template
 from datetime import datetime
 import pickle
+import botnoi as bn
+from botnoi import cv
 
 UPLOAD_DIRECTORY = './images/'
 app = Flask(__name__)
 
-#model = pickle.load(xxx)
+model_file = 'cloud_predict.pickle'
+model = pickle.load(open(model_file,'rb'))
 
-# @app.route('/')
-# def hello_world():
-#     return 'hello world'
+@app.route('/')
+def hello_world():
+    return 'hello world'
 
 def upload_form():
     with open('upload.html') as f:
@@ -46,12 +49,20 @@ def get_image_path(cloud_type):
     }
     return switcher.get(cloud_type, '<img src="/static/clouds/cumulonimbus.png" width="400px" />')
 
+def test(filename):
+    a = cv.image(filename)
+    feat = a.getmobilenet()
+    res = model.predict([feat])
+    return str(res[0])
+
 def read_predict_html():
     with open('prediction.html') as f:
         return f.read()
 
-def get_predict_html(filename):   
-    cloud_type = 'nimbostratus' #fix the cloud type TODO: call model.predict with the given filename to get cloud_type
+def get_predict_html(filename):
+    print(filename)
+    cloud_type = test(filename)    
+    # cloud_type = 'nimbostratus' #fix the cloud type TODO: call model.predict with the given filename to get cloud_type
     description = get_description(cloud_type)
     predict_html = read_predict_html()
     predict_html = predict_html.replace('__PREDICTION__', cloud_type + ' : ' + description)
@@ -67,31 +78,29 @@ def index():
 
 @app.route('/cloud', methods = ['GET', 'POST'])
 def upload_image():
-    try:
-        if request.method == 'POST':
-            if 'file' not in request.files:
-                flash('No file part')
-                return redirect(request.url)
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
 
-            print('file length : ' + str(len(request.files)))
-            f = request.files['file']                
-            print(f)
-            current_time = datetime.now().strftime('%d-%b-%YT%H-%M-%S') # 1-Sep-2021T21-52-19
-            filename = current_time + '_' + f.filename # 1-Sep-2021T21-52-19_cloud123.jpg
-            with open(os.path.join(UPLOAD_DIRECTORY, filename), 'wb') as fp:
-                fp.write(request.data)
+        print('file length : ' + str(len(request.files)))
+        f = request.files['file']                
+        print(f)
+        current_time = datetime.now().strftime('%d-%b-%YT%H-%M-%S') # 1-Sep-2021T21-52-19
+        filename = current_time + '_' + f.filename # 1-Sep-2021T21-52-19_cloud123.jpg
+        with open(os.path.join(UPLOAD_DIRECTORY, filename), 'wb') as fp:
+            fp.write(request.data)
 
-            predict_html = get_predict_html(UPLOAD_DIRECTORY + filename)
-            content = upload_form().replace('__PREDICTION__', predict_html)
+        predict_html = get_predict_html(UPLOAD_DIRECTORY + filename)
+        content = upload_form().replace('__PREDICTION__', predict_html)
 
-            # remove uploaded file after prediction to cleanup space
-            # os.remove(UPLOAD_DIRECTORY + filename)
+        # remove uploaded file after prediction to cleanup space
+        # os.remove(UPLOAD_DIRECTORY + filename)
 
-            return content, 201  # Return 201 CREATED
-    except:
-        return traceback.print_exc()
+        return content, 201  # Return 201 CREATED
 
     return upload_form().replace('__PREDICTION__', '')
 
 if __name__ == '__main__':
-    app.run()
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=True)
