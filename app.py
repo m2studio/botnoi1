@@ -1,15 +1,15 @@
 import os
 from flask import Flask, flash, request, render_template
 from datetime import datetime
-import pickle
-import botnoi as bn
-from botnoi import cv
+#import pickle
+#import botnoi as bn
+#from botnoi import cv
 
 UPLOAD_DIRECTORY = './images/'
 app = Flask(__name__)
 
-model_file = 'cloud_predict.pickle'
-model = pickle.load(open(model_file,'rb'))
+# model_file = 'cloud_predict.pickle'
+# model = pickle.load(open(model_file,'rb'))
 
 @app.route('/')
 def hello_world():
@@ -36,24 +36,24 @@ def get_description(cloud_type):
 
 def get_image_path(cloud_type):
     switcher = {
-        'altocumulus': '<img src="/static/clouds/cumulonimbus.png" width="400px" />',
-        'altostratus': '<img src="/static/clouds/cumulonimbus.png" width="400px" />',
-        'cirrocumulus': '<img src="/static/clouds/cumulonimbus.png" width="400px" />',
-        'cirrostratus': '<img src="/static/clouds/cumulonimbus.png" width="400px" />',
-        'cirrus': '<img src="/static/clouds/cumulonimbus.png" width="400px" />',
+        'altocumulus': '<img src="/static/clouds/altocumulus.png" width="400px" />',
+        'altostratus': '<img src="/static/clouds/altostratus.png" width="400px" />',
+        'cirrocumulus': '<img src="/static/clouds/cirrocumulus.png" width="400px" />',
+        'cirrostratus': '<img src="/static/clouds/cirrostratus.png" width="400px" />',
+        'cirrus': '<img src="/static/clouds/cirrus.png" width="400px" />',
         'cumulonimbus': '<img src="/static/clouds/cumulonimbus.png" width="400px" />',
-        'cumulus': '<img src="/static/clouds/cumulonimbus.png" width="400px" />',
-        'nimbostratus': '<img src="/static/clouds/cumulonimbus.png" width="400px" />',
-        'stratocumulus': '<img src="/static/clouds/cumulonimbus.png" width="400px" />',
-        'stratus': '<img src="/static/clouds/cumulonimbus.png" width="400px" />',
+        'cumulus': '<img src="/static/clouds/cumulus.png" width="400px" />',
+        'nimbostratus': '<img src="/static/clouds/nimbostratus.png" width="400px" />',
+        'stratocumulus': '<img src="/static/clouds/stratocumulus.png" width="400px" />',
+        'stratus': '<img src="/static/clouds/stratus.png" width="400px" />',
     }
-    return switcher.get(cloud_type, '<img src="/static/clouds/cumulonimbus.png" width="400px" />')
+    return switcher.get(cloud_type, '<img src="/static/clouds/altocumulus.png" width="400px" />')
 
-def test(filename):
-    a = cv.image(filename)
-    feat = a.getmobilenet()
-    res = model.predict([feat])
-    return str(res[0])
+# def test(filename):
+#     a = cv.image(filename)
+#     feat = a.getmobilenet()
+#     res = model.predict([feat])
+#     return str(res[0])
 
 def read_predict_html():
     with open('prediction.html') as f:
@@ -61,8 +61,8 @@ def read_predict_html():
 
 def get_predict_html(filename):
     print(filename)
-    cloud_type = test(filename)    
-    # cloud_type = 'nimbostratus' #fix the cloud type TODO: call model.predict with the given filename to get cloud_type
+    # cloud_type = test(filename)    
+    cloud_type = 'nimbostratus' #fix the cloud type TODO: call model.predict with the given filename to get cloud_type
     description = get_description(cloud_type)
     predict_html = read_predict_html()
     predict_html = predict_html.replace('__PREDICTION__', cloud_type + ' : ' + description)
