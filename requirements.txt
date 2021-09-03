@@ -4,12 +4,12 @@ Flask==1.1.4
 #Werkzeug==0.11.11
 #click==6.6
 gunicorn==19.6.0
-itsdangerous==0.24
+#itsdangerous==1.1.0
 #requests
 numpy==1.19.2
 #clint
 #oauth2client
-scipy
+scipy==1.4.1
 #flask_restful
 #flask-jsonpify
 #beautifulsoup4
