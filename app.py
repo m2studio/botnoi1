@@ -65,6 +65,11 @@ def get_predict_html(filename):
     print('current directory : ' + os.getcwd())
     print('filename : ' + filename)
 
+    if os.path.isdir(UPLOAD_DIRECTORY):
+        print('directory : ' + UPLOAD_DIRECTORY + ' is exsited')
+    else:
+        print('directory : ' + UPLOAD_DIRECTORY + ' is NOT exsited')
+
     if os.path.isfile(filename):
         print('filename is existed')
     else:
