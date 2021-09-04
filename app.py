@@ -86,7 +86,7 @@ def get_predict_html(filename):
     # cloud_type = 'nimbostratus' #fix the cloud type TODO: call model.predict with the given filename to get cloud_type
     description = get_description(cloud_type)
     predict_html = read_predict_html()
-    predict_html = predict_html.replace('__PREDICTION__', cloud_type + ' : ' + description)
+    predict_html = predict_html.replace('__PREDICTION__', cloud_type)
     image_path = get_image_path(cloud_type)
     predict_html = predict_html.replace('__IMAGE__', image_path)
     print('predict_html')
