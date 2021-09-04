@@ -6,7 +6,7 @@ import botnoi as bn
 from botnoi import cv
 
 #UPLOAD_DIRECTORY = './images/'
-UPLOAD_DIRECTORY = '/tmp/'
+UPLOAD_DIRECTORY = '/app/tmp/'
 app = Flask(__name__)
 
 model_file = 'cloud_predict.pickle'
@@ -61,7 +61,7 @@ def read_predict_html():
         return f.read()
 
 def get_predict_html(filename):
-    filename = './static/clouds/altocumulus.png'
+    # filename = './static/clouds/altocumulus.png'
     print('filename : ' + filename)
     cloud_type = test(filename)    
     # cloud_type = 'nimbostratus' #fix the cloud type TODO: call model.predict with the given filename to get cloud_type
