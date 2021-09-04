@@ -67,7 +67,7 @@ def get_predict_html(filename):
 
     if os.path.isfile(filename):
         print('filename is existed')
-    elif 
+    else:
         print('filename is NOT existed')
 
     cloud_type = test(filename)    
