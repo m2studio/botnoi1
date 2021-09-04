@@ -16,12 +16,12 @@ scipy==1.4.1
 pandas
 #rq
 #timeout-decorator
-#scikit-learn==0.22.2.post1
+scikit-learn==0.23
 #pythainlp
 #xlrd
 botnoi==0.2.9
 #matplotlib
 #gensim
-keras==2.6.0
-tensorflow-cpu==2.6.0
-#Pillow==7.1.2
+keras==2.4.3
+tensorflow-cpu==2.4.3
+Pillow==7.1.2
