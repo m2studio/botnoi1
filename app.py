@@ -62,7 +62,14 @@ def read_predict_html():
 
 def get_predict_html(filename):
     # filename = './static/clouds/altocumulus.png'
+    print('current directory : ' + os.getcwd())
     print('filename : ' + filename)
+
+    if os.path.isfile(filename):
+        print('filename is existed')
+    elif 
+        print('filename is NOT existed')
+
     cloud_type = test(filename)    
     # cloud_type = 'nimbostratus' #fix the cloud type TODO: call model.predict with the given filename to get cloud_type
     description = get_description(cloud_type)
