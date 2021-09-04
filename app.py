@@ -5,6 +5,8 @@ import pickle
 import botnoi as bn
 from botnoi import cv
 
+from PIL import image
+
 #UPLOAD_DIRECTORY = './images/'
 UPLOAD_DIRECTORY = '/app/tmp/'
 app = Flask(__name__)
@@ -74,6 +76,11 @@ def get_predict_html(filename):
         print('filename is existed')
     else:
         print('filename is NOT existed')
+
+    try:
+        img = Image.open(filename)
+    except (IOError, SyntaxError) as e:
+        print('Bad file : ' + filename)
 
     cloud_type = test(filename)    
     # cloud_type = 'nimbostratus' #fix the cloud type TODO: call model.predict with the given filename to get cloud_type
