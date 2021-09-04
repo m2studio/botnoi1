@@ -109,8 +109,7 @@ def upload_image():
         print(f)
         current_time = datetime.now().strftime('%d-%b-%YT%H-%M-%S') # 1-Sep-2021T21-52-19
         filename = current_time + '_' + f.filename # 1-Sep-2021T21-52-19_cloud123.jpg
-        with open(os.path.join(UPLOAD_DIRECTORY, filename), 'wb') as fp:
-            fp.write(request.data)
+        f.save(filename)
 
         predict_html = get_predict_html(UPLOAD_DIRECTORY + filename)
         content = upload_form().replace('__PREDICTION__', predict_html)
