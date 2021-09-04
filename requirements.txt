@@ -24,4 +24,5 @@ botnoi==0.2.9
 #gensim
 keras==2.4.3
 tensorflow-cpu==2.4.3
+h5py==2.10.0
 Pillow==7.1.2

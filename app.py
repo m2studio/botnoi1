@@ -5,7 +5,8 @@ import pickle
 import botnoi as bn
 from botnoi import cv
 
-UPLOAD_DIRECTORY = './images/'
+#UPLOAD_DIRECTORY = './images/'
+UPLOAD_DIRECTORY = '/tmp/'
 app = Flask(__name__)
 
 model_file = 'cloud_predict.pickle'
